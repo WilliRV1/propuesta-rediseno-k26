@@ -20,4 +20,4 @@ http.createServer((req, res) => {
   if (fuera || !fs.existsSync(archivo) || fs.statSync(archivo).isDirectory()) { res.writeHead(404); res.end('No encontrado'); return; }
   res.writeHead(200, { 'Content-Type': tipos[path.extname(archivo)] || 'application/octet-stream', 'Cache-Control': 'no-cache' });
   fs.createReadStream(archivo).pipe(res);
-}).listen(puerto, '127.0.0.1', () => console.log());
+}).listen(puerto, '127.0.0.1', () => console.log(`Demo en http://localhost:${puerto}`));
