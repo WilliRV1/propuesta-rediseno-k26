@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#242424">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Kreata Store, propuesta de rediseño</title>
+  <meta name="description" content="Propuesta de rediseño de kreatastore.com con visor de producto en 3D.">
+  <link rel="icon" href="img/kreata-logo.png">
+  <link rel="preload" href="fonts/ubuntu-700.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/lato-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/estilos.css">
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Ir al contenido</a>
+
+  <p class="nota-demo">Propuesta de rediseño para Kreata. Los productos, tiendas y precios son los del catálogo real; el carrito de esta demo no procesa compras.</p>
+
+  <header class="cabecera">
+    <a class="logo" href="#" aria-label="Kreata, inicio"><img src="img/kreata-logo.png" alt="Kreata" width="700" height="213"></a>
+    <nav class="menu" aria-label="Categorías">
+      <ul>
+        <li><a href="#catalogo">Camisetas</a></li>
+        <li><a href="#catalogo">Hoodies</a></li>
+        <li><a href="#catalogo">Pañoletas</a></li>
+        <li><a href="#contenido">Mugs</a></li>
+        <li><a href="#catalogo">Afiches</a></li>
+        <li><a href="#catalogo">Bolsos</a></li>
+        <li><a href="#tiendas">Tiendas</a></li>
+      </ul>
+    </nav>
+    <div class="cabecera-acciones">
+      <a class="enlace-creador" href="#creadores">Vender mis diseños</a>
+      <a href="#" class="accion">Mi cuenta</a>
+      <a href="#" class="accion carrito" id="carrito" aria-label="Carrito, 0 productos">Carrito <span id="carrito-cuenta">0</span></a>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="portada" aria-labelledby="titulo-portada">
+      <div class="portada-texto">
+        <h1 id="titulo-portada">Diseños de creadores colombianos, impresos cuando los pides</h1>
+        <p class="bajada">Cada pieza se estampa por encargo y sale hacia tu casa en 4 a 5 días hábiles.</p>
+      </div>
+
+      <div class="escenario" id="escenario" data-estado="cargando">
+        <p class="escenario-carga">Cargando la vista en 3D…</p>
+        <img class="escenario-plano" id="escenario-plano" alt="Arte del mug" width="2048" height="952">
+        <div class="escenario-pie">
+          <span>Arrástralo para girarlo</span>
+          <button type="button" class="boton-texto" id="giro" aria-pressed="true">Pausar el giro</button>
+        </div>
+      </div>
+
+      <div class="ficha">
+        <h2 id="mug-nombre">Mug Azulejo común</h2>
+        <p class="ficha-tienda">Diseño de <a href="#tiendas" id="mug-tienda">ARTERY</a></p>
+        <p class="ficha-detalle">Cerámica de 11 oz con impresión en los 360°.</p>
+        <div class="ficha-compra">
+          <p class="precio" id="mug-precio">$ 47.000</p>
+          <button type="button" class="boton" id="mug-agregar" data-agregar="El mug Azulejo común">Agregar este mug al carrito</button>
+        </div>
+        <h3 class="ficha-otros">Otros mugs para girar</h3>
+        <ul class="muestras" id="mugs"></ul>
+      </div>
+    </section>
+
+    <section class="catalogo" id="catalogo" aria-labelledby="titulo-catalogo">
+      <div class="seccion-cabeza">
+        <h2 id="titulo-catalogo">Lo que están publicando los creadores</h2>
+        <a href="#">Ver los 38 diseños</a>
+      </div>
+      <ul class="rejilla">
+        <li class="producto">
+          <a href="#"><img src="img/p-53766.jpg" alt="Camiseta negra con la lámina del azulejo común" width="800" height="800" loading="lazy">
+          <h3>Azulejo, camiseta</h3></a>
+          <p class="producto-tienda">de ARTERY</p>
+          <p class="producto-precio">$ 94.900</p>
+        </li>
+        <li class="producto">
+          <a href="#"><img src="img/p-54170.jpg" alt="Afiche Caleña con una ilustración de Kokomochi" width="800" height="800" loading="lazy">
+          <h3>Caleña, afiche</h3></a>
+          <p class="producto-tienda">de Kokomochi</p>
+          <p class="producto-precio">Desde $ 46.900</p>
+        </li>
+        <li class="producto">
+          <a href="#"><img src="img/p-53867.jpg" alt="Tote bag con la lámina de la tangara multicolor" width="800" height="800" loading="lazy">
+          <h3>Tangara multicolor, tote bag</h3></a>
+          <p class="producto-tienda">de ARTERY</p>
+          <p class="producto-precio">$ 68.000</p>
+        </li>
+        <li class="producto">
+          <a href="#"><img src="img/p-54272.jpg" alt="Camiseta blanca Cali pachanguero" width="800" height="800" loading="lazy">
+          <h3>Cali pachanguero, camiseta</h3></a>
+          <p class="producto-tienda">de Kokomochi</p>
+          <p class="producto-precio">$ 87.900</p>
+        </li>
+        <li class="producto">
+          <a href="#"><img src="img/p-54118.jpg" alt="Pañoleta con la lámina del azulejo común" width="800" height="800" loading="lazy">
+          <h3>Azulejo, pañoleta</h3></a>
+          <p class="producto-tienda">de ARTERY</p>
+          <p class="producto-precio">Desde $ 120.900</p>
+        </li>
+        <li class="producto">
+          <a href="#"><img src="img/p-53651.jpg" alt="Camiseta negra Catastrophic con gatos ilustrados" width="800" height="800" loading="lazy">
+          <h3>Catastrophic, camiseta</h3></a>
+          <p class="producto-tienda">de Kokomochi</p>
+          <p class="producto-precio">$ 77.900</p>
+        </li>
+        <li class="producto">
+          <a href="#"><img src="img/p-53133.jpg" alt="Pañoleta Pacífico y Caribe" width="800" height="800" loading="lazy">
+          <h3>Pacífico y Caribe, pañoleta</h3></a>
+          <p class="producto-tienda">de Kokomochi</p>
+          <p class="producto-precio">Desde $ 120.900</p>
+        </li>
+        <li class="producto">
+          <a href="#"><img src="img/p-53171.jpg" alt="Tote bag Caleña" width="800" height="800" loading="lazy">
+          <h3>Caleña, tote bag</h3></a>
+          <p class="producto-tienda">de Kokomochi</p>
+          <p class="producto-precio">$ 68.000</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="tiendas" id="tiendas" aria-labelledby="titulo-tiendas">
+      <h2 id="titulo-tiendas">Tiendas de creadores</h2>
+      <article class="tienda">
+        <img src="img/wrap-bichofue.jpg" alt="Lámina del bichofué, de ARTERY" width="2048" height="952" loading="lazy">
+        <div>
+          <h3>ARTERY</h3>
+          <p>Láminas de aves del Valle del Cauca, dibujadas como un atlas antiguo, en camisetas, mugs, pañoletas y bolsos.</p>
+          <a href="#">Entrar a ARTERY, 20 diseños</a>
+        </div>
+      </article>
+      <article class="tienda tienda-invertida">
+        <img src="img/wrap-juancho.jpg" alt="Juancho y Conchita, de Kokomochi" width="2048" height="952" loading="lazy">
+        <div>
+          <h3>Kokomochi</h3>
+          <p>Personajes ilustrados, café y Cali en camisetas, mugs, afiches, pañoletas y bolsos.</p>
+          <a href="#">Entrar a Kokomochi, 17 diseños</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="creadores" id="creadores" aria-labelledby="titulo-creadores">
+      <div class="creadores-texto">
+        <h2 id="titulo-creadores">¿Dibujas? Mira tu arte en un mug antes de abrir tu tienda</h2>
+        <p>Sube una imagen y gírala. Kreata imprime, empaca y despacha cada pedido; tú no compras inventario.</p>
+        <label class="boton boton-claro" for="arte-archivo">Subir mi arte</label>
+        <input class="oculto" type="file" id="arte-archivo" accept="image/png,image/jpeg,image/webp">
+        <p class="arte-estado" id="arte-estado" role="status">También puedes soltar el archivo sobre el mug. La imagen no sale de tu navegador.</p>
+        <dl class="requisitos">
+          <dt>Para abrir tienda necesitas</dt>
+          <dd>Ser mayor de edad, tener RUT vigente y registrar tus datos de pago.</dd>
+          <dt>Antes de publicarse</dt>
+          <dd>Cada producto pasa por revisión manual de Kreata.</dd>
+        </dl>
+        <a class="enlace-fuerte" href="#">Abrir mi tienda en Kreata</a>
+      </div>
+      <div class="escenario escenario-oscuro" id="taller" data-estado="cargando">
+        <p class="escenario-carga">Cargando la vista en 3D…</p>
+      </div>
+    </section>
+
+    <section class="datos" aria-labelledby="titulo-datos">
+      <h2 id="titulo-datos">Cómo llega tu pedido</h2>
+      <dl>
+        <div><dt>Entrega</dt><dd>4 a 5 días hábiles. Hoodies y pañoletas, 8 a 10.</dd></div>
+        <div><dt>Envío</dt><dd>A todo el país con Aveonline.</dd></div>
+        <div><dt>Impresión</dt><dd>DTF en ropa y sublimación en mugs y pañoletas.</dd></div>
+        <div><dt>Pago</dt><dd>Procesado por Wompi.</dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <img src="img/kreata-logo.png" alt="Kreata" width="700" height="213" loading="lazy">
+    <nav aria-label="Enlaces del pie">
+      <ul>
+        <li><a href="#">Sobre Kreata</a></li>
+        <li><a href="#">Términos para vendedores</a></li>
+        <li><a href="#">Documentos legales</a></li>
+        <li><a href="#">Soporte</a></li>
+      </ul>
+    </nav>
+    <p>© 2026 Kreata Store. Los diseños, marcas y contenidos exhibidos pertenecen a sus creadores.</p>
+  </footer>
+
+  <p class="aviso" id="aviso" role="status"></p>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
