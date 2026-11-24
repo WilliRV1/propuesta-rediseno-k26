@@ -7,6 +7,7 @@ export function ProductGrid({ items }) {
         <li className="producto" key={p.id}>
           <a href="#">
             <img src={p.image} alt={p.alt} width="800" height="800" loading="lazy" />
+            {p.available === false && <span className="producto-agotado">Agotado</span>}
             <h3>{p.title}</h3>
           </a>
           <p className="producto-tienda">de {p.store}</p>

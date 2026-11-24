@@ -11,7 +11,17 @@ const CATEGORY_LABELS = {
   afiches: 'Afiches',
   bolsos: 'Bolsos',
 };
-const SORTS = { relevancia: 'Relevancia', 'precio-asc': 'Precio: menor a mayor', 'precio-desc': 'Precio: mayor a menor' };
+const SORTS = {
+  relevancia: 'Relevancia',
+  novedades: 'Novedades',
+  'precio-asc': 'Precio: menor a mayor',
+  'precio-desc': 'Precio: mayor a menor',
+};
+const PRICE_BANDS = {
+  'hasta-70000': { label: 'Hasta $70.000', test: (n) => n <= 70000 },
+  '70000-100000': { label: '$70.000 - $100.000', test: (n) => n > 70000 && n <= 100000 },
+  'mas-100000': { label: 'Más de $100.000', test: (n) => n > 100000 },
+};
 
 const DIACRITICS = new RegExp('[\\u0300-\\u036f]', 'g'); // marcas de acento tras normalize('NFD')
 const normalize = (s) => s.normalize('NFD').replace(DIACRITICS, '').toLowerCase();
@@ -23,6 +33,7 @@ export function CatalogPage() {
   const category = params.get('category') ?? '';
   const store = params.get('store') ?? '';
   const size = params.get('size') ?? '';
+  const priceBand = params.get('price') ?? '';
   const sort = params.get('sort') ?? 'relevancia';
 
   // las opciones de filtro salen de lo que de verdad hay en el catalogo: nunca se ofrece un filtro vacio
@@ -33,16 +44,19 @@ export function CatalogPage() {
   const results = useMemo(() => {
     const needle = q ? normalize(q) : '';
     let items = CATALOG.filter((p) => {
-      if (needle && !normalize(`${p.title} ${p.collection}`).includes(needle)) return false;
+      const haystack = `${p.title} ${p.collection} ${CATEGORY_LABELS[p.category] ?? ''}`;
+      if (needle && !normalize(haystack).includes(needle)) return false;
       if (category && p.category !== category) return false;
       if (store && p.store !== store) return false;
       if (size && !p.sizes?.includes(size)) return false;
+      if (priceBand && !PRICE_BANDS[priceBand]?.test(priceOf(p))) return false;
       return true;
     });
     if (sort === 'precio-asc') items = [...items].sort((a, b) => priceOf(a) - priceOf(b));
     if (sort === 'precio-desc') items = [...items].sort((a, b) => priceOf(b) - priceOf(a));
+    if (sort === 'novedades') items = [...items].sort((a, b) => b.addedAt.localeCompare(a.addedAt));
     return items;
-  }, [q, category, store, size, sort]);
+  }, [q, category, store, size, priceBand, sort]);
 
   function setParam(key, value) {
     const next = new URLSearchParams(params);
@@ -53,7 +67,7 @@ export function CatalogPage() {
     setParams({}, { replace: true });
   }
 
-  const hasFilters = Boolean(q || category || store || size || (sort && sort !== 'relevancia'));
+  const hasFilters = Boolean(q || category || store || size || priceBand || (sort && sort !== 'relevancia'));
   let heading = 'Catálogo';
   if (q) heading = `Resultados para “${q}”`;
   else if (category && CATEGORY_LABELS[category]) heading = CATEGORY_LABELS[category];
@@ -87,6 +101,17 @@ export function CatalogPage() {
               onClick={() => setParam('store', store === s ? '' : s)}
             >
               {s}
+            </button>
+          ))}
+        </div>
+        <div className="filtro-grupo" role="group" aria-label="Precio">
+          {Object.entries(PRICE_BANDS).map(([value, band]) => (
+            <button
+              key={value} type="button" className="filtro-boton"
+              aria-pressed={priceBand === value}
+              onClick={() => setParam('price', priceBand === value ? '' : value)}
+            >
+              {band.label}
             </button>
           ))}
         </div>

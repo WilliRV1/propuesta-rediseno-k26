@@ -55,4 +55,29 @@ test.describe('EPIC-03: catálogo, búsqueda, filtros y ordenamiento', () => {
     await page.goto('/catalog?category=bolsos');
     await expect(page.getByRole('button', { name: 'Limpiar filtros' })).toBeVisible();
   });
+
+  test('RF-034: un producto sin stock se muestra marcado "Agotado"', async ({ page }) => {
+    await page.goto('/catalog?q=azulejo');
+    await expect(page.locator('.producto').getByText('Agotado')).toBeVisible();
+  });
+
+  test('RF-036: buscar por nombre de categoría también filtra', async ({ page }) => {
+    await page.goto('/catalog?q=pañoletas');
+    const titles = page.locator('.producto h3');
+    await expect(titles).toHaveCount(2);
+    await expect(page.locator('.producto')).toContainText(['pañoleta']);
+  });
+
+  test('RF-038: el filtro de precio por rango funciona', async ({ page }) => {
+    await page.goto('/catalog');
+    await page.getByRole('group', { name: 'Precio' }).getByRole('button', { name: 'Más de $100.000' }).click();
+    await expect(page).toHaveURL(/price=mas-100000/);
+    const titles = page.locator('.producto h3');
+    await expect(titles).toHaveCount(2); // las 2 pañoletas, 120.900
+  });
+
+  test('RF-039: ordenar por novedades pone primero lo más reciente', async ({ page }) => {
+    await page.goto('/catalog?sort=novedades');
+    await expect(page.locator('.producto h3').first()).toHaveText('Caleña, tote bag'); // addedAt mas reciente
+  });
 });
