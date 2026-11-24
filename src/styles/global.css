@@ -50,21 +50,58 @@ h2 { font-size: clamp(1.6rem, 2.6vw, 2.25rem); }
 /* ---------- Nota de demo y cabecera ---------- */
 .nota-demo { background: var(--ink); color: var(--blanco); font-size: 0.875rem; padding: var(--e2) var(--lado); }
 .cabecera {
-  display: flex; align-items: center; gap: var(--e6);
+  display: flex; align-items: center; gap: var(--e4);
   max-width: var(--ancho); margin: 0 auto; padding: var(--e4) var(--lado);
 }
+.logo { display: block; flex: 0 0 auto; }
 .logo img { width: 132px; }
-.menu { flex: 1; }
-.menu ul { display: flex; flex-wrap: wrap; gap: var(--e1) var(--e5); }
-.menu a, .accion { text-decoration: none; font-weight: 700; padding: var(--e3) 0; display: inline-block; }
-.menu a:hover, .accion:hover { text-decoration: underline; text-decoration-thickness: 2px; }
-.cabecera-acciones { display: flex; align-items: center; gap: var(--e5); white-space: nowrap; }
-.enlace-creador { font-weight: 700; text-decoration-color: var(--ink-cyan); text-decoration-thickness: 3px; }
-.enlace-creador:hover { text-decoration-thickness: 5px; }
-.carrito span {
-  display: inline-block; min-width: 1.6em; text-align: center; margin-left: var(--e1);
-  background: var(--ink); color: var(--blanco); border-radius: 1em; font-size: 0.875rem; font-variant-numeric: tabular-nums;
+.menu-abrir {
+  display: none; order: -1; background: none; border: 0; padding: var(--e2);
+  margin-left: calc(var(--e2) * -1); color: var(--ink); cursor: pointer;
 }
+.menu { flex: 0 0 auto; }
+.menu ul { display: flex; flex-wrap: wrap; gap: var(--e1) var(--e4); }
+.menu a { text-decoration: none; font-weight: 700; padding: var(--e3) 0; display: inline-block; }
+.menu a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+
+.buscador { position: relative; flex: 1; min-width: 160px; max-width: 360px; }
+.buscador input {
+  width: 100%; border: 1px solid var(--linea); border-radius: 999px; background: var(--g-alt);
+  padding: var(--e2) var(--e6) var(--e2) var(--e4); font: inherit; color: var(--ink);
+}
+.buscador input::placeholder { color: var(--texto-2); }
+.buscador button {
+  position: absolute; right: var(--e1); top: 50%; translate: 0 -50%;
+  border: 0; background: none; padding: var(--e2); color: var(--ink); cursor: pointer; border-radius: 999px;
+}
+.buscador button:hover { background: var(--g-alt); }
+
+.cabecera-acciones { display: flex; flex: 0 0 auto; align-items: center; gap: var(--e2); white-space: nowrap; }
+.enlace-creador { font-weight: 700; text-decoration-color: var(--ink-cyan); text-decoration-thickness: 3px; margin-right: var(--e2); }
+.enlace-creador:hover { text-decoration-thickness: 5px; }
+.accion-icono {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 999px; color: var(--ink);
+}
+.accion-icono:hover { background: var(--g-alt); }
+.carrito span {
+  position: absolute; top: 2px; right: 2px; min-width: 1.3em; height: 1.3em; line-height: 1.3em;
+  text-align: center; background: var(--accent); color: #fff; border-radius: 1em;
+  font-size: 0.6875rem; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Menu movil (drawer) ---------- */
+.menu-movil-capa {
+  position: fixed; inset: 0; background: rgba(28, 28, 28, 0.4); z-index: 20;
+}
+.menu-movil {
+  position: fixed; inset: 0 25% 0 0; max-width: 320px; background: var(--g-main); z-index: 21;
+  padding: var(--e5); overflow-y: auto; box-shadow: 2px 0 24px rgba(0, 0, 0, 0.18);
+}
+.menu-movil-cerrar { border: 0; background: none; padding: var(--e2); margin-left: auto; display: block; cursor: pointer; color: var(--ink); }
+.menu-movil ul { margin-top: var(--e5); display: flex; flex-direction: column; gap: var(--e1); }
+.menu-movil a { display: block; padding: var(--e3) var(--e2); font-weight: 700; text-decoration: none; border-radius: var(--radio); }
+.menu-movil a:hover { background: var(--g-alt); }
 
 /* ---------- Portada ---------- */
 .portada {
@@ -191,11 +228,12 @@ input:focus-visible + .boton, .oculto:focus-visible ~ .boton { outline: 3px soli
 .datos dd { color: var(--texto-2); }
 
 /* ---------- Pie ---------- */
-.pie { border-top: 1px solid var(--linea); padding: var(--e7) var(--lado); max-width: var(--ancho); margin: 0 auto; display: grid; grid-template-columns: auto 1fr; gap: var(--e5) var(--e7); align-items: center; }
-.pie img { width: 110px; }
+.pie { border-top: 1px solid var(--linea); padding: var(--e7) var(--lado); max-width: var(--ancho); margin: 0 auto; display: grid; grid-template-columns: auto 1fr 1fr; gap: var(--e5) var(--e7); align-items: start; }
+.pie img { width: 110px; align-self: center; }
+.pie-contacto p { margin-bottom: var(--e2); color: var(--texto-2); font-size: 0.9375rem; }
 .pie ul { display: flex; flex-wrap: wrap; gap: var(--e2) var(--e5); }
 .pie a { display: inline-block; padding: var(--e2) 0; }
-.pie p { grid-column: 1 / -1; color: var(--texto-2); font-size: 0.9375rem; }
+.pie > p { grid-column: 1 / -1; color: var(--texto-2); font-size: 0.9375rem; }
 
 .aviso {
   position: fixed; left: 50%; bottom: var(--e5); translate: -50% 0; z-index: 5;
@@ -204,6 +242,15 @@ input:focus-visible + .boton, .oculto:focus-visible ~ .boton { outline: 3px soli
   max-width: calc(100vw - 2 * var(--e4));
 }
 .aviso[data-visible] { opacity: 1; visibility: visible; }
+
+/* ---------- Pagina de catalogo y paginas en construccion ---------- */
+.catalogo-pagina { max-width: var(--ancho); margin: 0 auto; padding: var(--e8) var(--lado); }
+.catalogo-pagina h1 { font-size: clamp(1.6rem, 2.6vw, 2.25rem); }
+.catalogo-pagina .rejilla { margin-top: var(--e6); }
+.proximamente { max-width: var(--ancho); margin: 0 auto; padding: var(--e9) var(--lado); text-align: center; }
+.proximamente h1 { font-size: clamp(1.6rem, 2.6vw, 2.25rem); }
+.proximamente p { margin-top: var(--e4); color: var(--texto-2); }
+.proximamente .enlace-fuerte { display: inline-block; margin-top: var(--e6); }
 
 /* ---------- Pantallas angostas ---------- */
 @media (max-width: 1080px) {
@@ -223,8 +270,8 @@ input:focus-visible + .boton, .oculto:focus-visible ~ .boton { outline: 3px soli
   .creadores { grid-template-columns: minmax(0, 1fr); padding: var(--e7) var(--lado); margin-top: var(--e8); }
   .escenario-oscuro { aspect-ratio: 1; }
   .datos dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .menu ul { flex-wrap: nowrap; overflow-x: auto; gap: var(--e5); padding-bottom: var(--e1); }
-  .menu a { white-space: nowrap; }
+  .menu { display: none; }
+  .menu-abrir { display: inline-flex; align-items: center; }
   .enlace-creador { display: none; }
   .pie { grid-template-columns: minmax(0, 1fr); }
 }

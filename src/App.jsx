@@ -1,32 +1,25 @@
-import { CartProvider } from './context/CartContext.jsx';
-import { Header } from './components/Header.jsx';
-import { HeroSection } from './components/HeroSection.jsx';
-import { CatalogSection } from './components/CatalogSection.jsx';
-import { StoresSection } from './components/StoresSection.jsx';
-import { CreatorSection } from './components/CreatorSection.jsx';
-import { DeliveryInfo } from './components/DeliveryInfo.jsx';
-import { Footer } from './components/Footer.jsx';
-import { CartToast } from './components/CartToast.jsx';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Layout } from './pages/Layout.jsx';
+import { HomePage } from './pages/HomePage.jsx';
+import { CatalogPage } from './pages/CatalogPage.jsx';
+import { ComingSoonPage } from './pages/ComingSoonPage.jsx';
 
 export function App() {
   return (
-    <CartProvider>
-      <a className="saltar" href="#contenido">Ir al contenido</a>
-
-      <p className="nota-demo">Propuesta de rediseño para Kreata. Los productos, tiendas y precios son los del catálogo real; el carrito de esta demo no procesa compras.</p>
-
-      <Header />
-
-      <main id="contenido">
-        <HeroSection />
-        <CatalogSection />
-        <StoresSection />
-        <CreatorSection />
-        <DeliveryInfo />
-      </main>
-
-      <Footer />
-      <CartToast />
-    </CartProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/account" element={<ComingSoonPage title="Mi cuenta" description="Inicio de sesión, registro y pedidos. Llega con el backend de identidad." />} />
+          <Route path="/favorites" element={<ComingSoonPage title="Lista de deseos" />} />
+          <Route path="/help" element={<ComingSoonPage title="Ayuda y preguntas frecuentes" />} />
+          <Route path="/about" element={<ComingSoonPage title="Sobre Kreata" />} />
+          <Route path="/legal/terminos-vendedores" element={<ComingSoonPage title="Términos para vendedores" />} />
+          <Route path="/legal/documentos" element={<ComingSoonPage title="Documentos legales" />} />
+          <Route path="*" element={<ComingSoonPage title="Página no encontrada" description="Revisa la dirección o vuelve al inicio." />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
