@@ -3,6 +3,7 @@ import { CartProvider } from '../context/CartContext.jsx';
 import { Header } from '../components/Header.jsx';
 import { Footer } from '../components/Footer.jsx';
 import { CartToast } from '../components/CartToast.jsx';
+import { KreoChat } from '../components/KreoChat.jsx';
 
 /** Marco compartido por todas las páginas de la demo: cabecera, pie y el aviso del carrito. */
 export function Layout() {
@@ -16,6 +17,7 @@ export function Layout() {
       </main>
       <Footer />
       <CartToast />
+      <KreoChat />
     </CartProvider>
   );
 }
