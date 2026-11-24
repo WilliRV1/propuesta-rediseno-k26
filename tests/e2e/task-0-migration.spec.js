@@ -12,7 +12,7 @@ test.describe('Tarea 0: migración a React + Vite', () => {
 
     await page.goto('/');
     await expect(page).toHaveTitle(/Kreata/);
-    await expect(page.locator('h1')).toContainText('Diseños de creadores colombianos');
+    await expect(page.locator('h1')).toContainText('El talento creativo merece llegar más lejos');
     expect(errors).toEqual([]);
   });
 

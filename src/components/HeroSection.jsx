@@ -42,7 +42,7 @@ export function HeroSection() {
   return (
     <section className="portada" aria-labelledby="titulo-portada">
       <div className="portada-texto">
-        <h1 id="titulo-portada">Diseños de creadores colombianos, impresos cuando los pides</h1>
+        <h2 id="titulo-portada">Diseños de creadores colombianos, impresos cuando los pides</h2>
         <p className="bajada">Cada pieza se estampa por encargo y sale hacia tu casa en 4 a 5 días hábiles.</p>
       </div>
 
@@ -65,7 +65,7 @@ export function HeroSection() {
       </div>
 
       <div className="ficha">
-        <h2 id="mug-nombre">Mug {current.name}</h2>
+        <h3 id="mug-nombre">Mug {current.name}</h3>
         <p className="ficha-tienda">Diseño de <a href="#tiendas" id="mug-tienda">{current.store}</a></p>
         <p className="ficha-detalle">Cerámica de 11&nbsp;oz con impresión en los 360°.</p>
         <div className="ficha-compra">
