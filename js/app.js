@@ -8,8 +8,41 @@ const MUGS = [
   { id: 'juancho', nombre: 'Juancho y Conchita', tienda: 'Kokomochi', precio: 47000, arte: 'img/wrap-juancho.jpg' },
   { id: 'cafeleche', nombre: 'Café pero con leche', tienda: 'Kokomochi', precio: 47000, arte: 'img/wrap-cafeleche.jpg' },
 ];
+const PRODUCTOS = [
+  { id: 'calena-afiche', nombre: 'Caleña, afiche', tienda: 'Kokomochi', precio: 'Desde $ 46.900', imagen: 'img/p-54170.jpg', alt: 'Afiche Caleña con una ilustración de Kokomochi' },
+  { id: 'tangara-tote', nombre: 'Tangara multicolor, tote bag', tienda: 'ARTERY', precio: '$ 68.000', imagen: 'img/p-53867.jpg', alt: 'Tote bag con la lámina de la tangara multicolor' },
+  { id: 'azulejo-camiseta', nombre: 'Azulejo, camiseta', tienda: 'ARTERY', precio: '$ 94.900', imagen: 'img/p-53766.jpg', alt: 'Camiseta negra con la lámina del azulejo común' },
+  { id: 'cali-pachanguero', nombre: 'Cali pachanguero, camiseta', tienda: 'Kokomochi', precio: '$ 87.900', imagen: 'img/p-54272.jpg', alt: 'Camiseta blanca Cali pachanguero' },
+  { id: 'catastrophic-camiseta', nombre: 'Catastrophic, camiseta', tienda: 'Kokomochi', precio: '$ 77.900', imagen: 'img/p-53651.jpg', alt: 'Camiseta negra Catastrophic con gatos ilustrados' },
+  { id: 'pacifico-caribe-panueleta', nombre: 'Pacífico y Caribe, pañoleta', tienda: 'Kokomochi', precio: 'Desde $ 120.900', imagen: 'img/p-53133.jpg', alt: 'Pañoleta Pacífico y Caribe' },
+];
+const PRODUCTOS_DESTACADOS = ['calena-afiche', 'tangara-tote'];
+const productosMostrados = new Set();
 const pesos = (n) => '$ ' + n.toLocaleString('es-CO');
 const $ = (s, raiz = document) => raiz.querySelector(s);
+
+function renderizarProductos(ids, destino) {
+  const productos = [];
+  ids.forEach((id) => {
+    const producto = PRODUCTOS.find((p) => p.id === id);
+    if (!producto) throw new Error(`No existe el producto "${id}".`);
+    if (productosMostrados.has(producto.id)) return;
+    productosMostrados.add(producto.id);
+    productos.push(producto);
+  });
+  $(destino).innerHTML = productos.map((producto) => `
+    <li class="producto" data-producto="${producto.id}">
+      <a href="#catalogo">
+        <img src="${producto.imagen}" alt="${producto.alt}" width="800" height="800" loading="lazy">
+        <h3>${producto.nombre}</h3>
+      </a>
+      <p class="producto-tienda">de ${producto.tienda}</p>
+      <p class="producto-precio">${producto.precio}</p>
+    </li>`).join('');
+}
+
+renderizarProductos(PRODUCTOS_DESTACADOS, '#productos-destacados');
+renderizarProductos(PRODUCTOS.map((producto) => producto.id), '#productos-catalogo');
 
 // ---------- Carrito (solo cuenta, la demo no procesa compras) ----------
 let enCarrito = 0;
@@ -77,13 +110,22 @@ if (visor) {
 const taller = $('#taller');
 let visorCreador = null;
 let arteSubido = false;
+const botonGiroCreador = $('#taller-giro');
+
+function pintarGiroCreador(girando) {
+  botonGiroCreador.textContent = girando ? 'Pausar el giro' : 'Girar solo';
+  botonGiroCreador.setAttribute('aria-pressed', String(girando));
+}
+botonGiroCreador.addEventListener('click', () => {
+  if (visorCreador) pintarGiroCreador(visorCreador.alternarGiro());
+});
+taller.addEventListener('giro', (evento) => pintarGiroCreador(evento.detail));
 
 function guiaDeArte() {
   const c = document.createElement('canvas');
   c.width = ARTE_ANCHO; c.height = ARTE_ALTO;
   const g = c.getContext('2d');
   g.fillStyle = '#fbfbf8'; g.fillRect(0, 0, c.width, c.height);
-  // marcas de corte y registro, como en una hoja de prueba de imprenta
   g.strokeStyle = '#242424'; g.lineWidth = 5;
   const m = 70, l = 90;
   for (const [x, y, sx, sy] of [[m, m, 1, 1], [c.width - m, m, -1, 1], [m, c.height - m, 1, -1], [c.width - m, c.height - m, -1, -1]]) {
@@ -102,7 +144,7 @@ new IntersectionObserver((entradas, obs) => {
   visorCreador = crearVisor(taller, { giroAutomatico: false, inicio: 0 });
   if (!visorCreador) return;
   visorCreador.lienzo.setAttribute('aria-label', 'Mug en 3D para probar tu arte. Arrastra o usa las flechas para girarlo.');
-  // la guia se pinta de una vez y se repinta cuando la fuente termina de cargar, salvo que ya haya un arte subido
+  pintarGiroCreador(visorCreador.girando);
   visorCreador.usar(guiaDeArte(), { vuelta: false });
   document.fonts.load('700 118px Ubuntu').then(() => { if (!arteSubido) visorCreador.usar(guiaDeArte(), { vuelta: false }); });
 }, { rootMargin: '300px' }).observe(taller);
@@ -127,3 +169,65 @@ $('#arte-archivo').addEventListener('change', (e) => recibirArchivo(e.target.fil
 taller.addEventListener('dragover', (e) => { e.preventDefault(); taller.dataset.soltar = '1'; });
 taller.addEventListener('dragleave', () => delete taller.dataset.soltar);
 taller.addEventListener('drop', (e) => { e.preventDefault(); delete taller.dataset.soltar; recibirArchivo(e.dataTransfer.files[0]); });
+
+function configurarPanelDesplegable(panel, boton, enlaces, textoCerrado, textoAbierto) {
+  function actualizar(abierto) {
+    panel.hidden = !abierto;
+    boton.setAttribute('aria-expanded', String(abierto));
+    boton.textContent = abierto ? textoAbierto : textoCerrado;
+    enlaces.forEach((enlace) => enlace.setAttribute('aria-expanded', String(abierto)));
+    if (abierto) {
+      panel.scrollIntoView({ block: 'start' });
+      panel.querySelector('input:not([type="hidden"])')?.focus({ preventScroll: true });
+    }
+  }
+  boton.addEventListener('click', () => actualizar(panel.hidden));
+  enlaces.forEach((enlace) => enlace.addEventListener('click', () => {
+    if (panel.hidden) actualizar(true);
+  }));
+  if (window.location.hash === `#${panel.id}`) actualizar(true);
+}
+
+configurarPanelDesplegable(
+  $('#postulacion'),
+  $('#abrir-postulacion'),
+  document.querySelectorAll('a[href="#postulacion"]'),
+  'Abrir formulario de postulación',
+  'Cerrar formulario'
+);
+configurarPanelDesplegable(
+  $('#garantias'),
+  $('#abrir-soporte'),
+  document.querySelectorAll('a[href="#garantias"]'),
+  'Ver garantías y soporte',
+  'Cerrar detalles'
+);
+
+function configurarFormularioDemo(formulario, mensajeExito) {
+  const estado = formulario.querySelector('[role="status"]');
+  const camposTextoRequeridos = formulario.querySelectorAll('input[required][type="text"], textarea[required]');
+  camposTextoRequeridos.forEach((campo) => campo.addEventListener('input', () => campo.setCustomValidity('')));
+  formulario.addEventListener('input', () => {
+    estado.textContent = '';
+    delete estado.dataset.tipo;
+  });
+  formulario.addEventListener('submit', (evento) => {
+    evento.preventDefault();
+    camposTextoRequeridos.forEach((campo) => {
+      campo.setCustomValidity(campo.value.trim() ? '' : 'Completa este campo.');
+    });
+    if (!formulario.reportValidity()) return;
+    const nombre = formulario.elements.namedItem('nombre').value.trim();
+    estado.textContent = mensajeExito(nombre);
+    estado.dataset.tipo = 'ok';
+  });
+}
+
+configurarFormularioDemo(
+  $('#postulacion'),
+  (nombre) => `¡Gracias, ${nombre}! Tu postulación quedó lista en esta demo. No se envió ni se guardó información.`
+);
+configurarFormularioDemo(
+  $('#solicitud-soporte'),
+  (nombre) => `¡Gracias, ${nombre}! Tu consulta quedó lista en esta demo. No se envió ni se guardó información.`
+);

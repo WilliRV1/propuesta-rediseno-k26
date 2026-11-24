@@ -1,6 +1,6 @@
 # Propuesta de rediseño con visor 3D
 
-Demo de una portada de tienda con un mug en 3D que se gira y recibe cualquier diseño como textura.
+Demo de una portada de tienda con un mug en 3D que se gira y recibe cualquier diseño como textura. Los formularios de postulación y soporte validan los campos y muestran una confirmación local; no envían ni guardan datos.
 
 ## Abrirla
 
