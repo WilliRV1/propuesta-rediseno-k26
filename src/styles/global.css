@@ -247,6 +247,16 @@ input:focus-visible + .boton, .oculto:focus-visible ~ .boton { outline: 3px soli
 .catalogo-pagina { max-width: var(--ancho); margin: 0 auto; padding: var(--e8) var(--lado); }
 .catalogo-pagina h1 { font-size: clamp(1.6rem, 2.6vw, 2.25rem); }
 .catalogo-pagina .rejilla { margin-top: var(--e6); }
+
+.catalogo-filtros { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e4) var(--e5); margin-top: var(--e5); padding-bottom: var(--e5); border-bottom: 1px solid var(--linea); }
+.filtro-grupo { display: flex; flex-wrap: wrap; gap: var(--e2); }
+.filtro-boton { border: 1px solid var(--linea); background: var(--g-main); border-radius: 999px; padding: var(--e1) var(--e4); font: inherit; font-size: 0.9375rem; cursor: pointer; }
+.filtro-boton:hover { background: var(--g-alt); }
+.filtro-boton[aria-pressed='true'] { background: var(--ink); color: var(--blanco); border-color: var(--ink); }
+.filtro-orden { margin-left: auto; display: flex; align-items: center; gap: var(--e2); font-size: 0.9375rem; color: var(--texto-2); }
+.filtro-orden select { font: inherit; border: 1px solid var(--linea); border-radius: var(--radio); padding: var(--e1) var(--e2); color: var(--ink); background: var(--g-main); }
+.catalogo-vacio { margin-top: var(--e7); padding: var(--e7) var(--e5); text-align: center; background: var(--g-alt); border-radius: var(--radio); }
+.catalogo-vacio p { color: var(--texto-2); margin-bottom: var(--e4); }
 .proximamente { max-width: var(--ancho); margin: 0 auto; padding: var(--e9) var(--lado); text-align: center; }
 .proximamente h1 { font-size: clamp(1.6rem, 2.6vw, 2.25rem); }
 .proximamente p { margin-top: var(--e4); color: var(--texto-2); }
