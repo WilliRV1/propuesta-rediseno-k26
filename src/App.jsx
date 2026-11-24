@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './pages/Layout.jsx';
 import { HomePage } from './pages/HomePage.jsx';
 import { CatalogPage } from './pages/CatalogPage.jsx';
+import { CommunityPage } from './pages/CommunityPage.jsx';
 import { ComingSoonPage } from './pages/ComingSoonPage.jsx';
 
 export function App() {
@@ -11,6 +12,7 @@ export function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/community" element={<CommunityPage />} />
           <Route path="/account" element={<ComingSoonPage title="Mi cuenta" description="Inicio de sesión, registro y pedidos. Llega con el backend de identidad." />} />
           <Route path="/favorites" element={<ComingSoonPage title="Lista de deseos" />} />
           <Route path="/help" element={<ComingSoonPage title="Ayuda y preguntas frecuentes" />} />

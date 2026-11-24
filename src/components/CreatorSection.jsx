@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { artGuideCanvas } from '../lib/artGuide.js';
 
 export function CreatorSection() {
@@ -75,7 +76,7 @@ export function CreatorSection() {
           <dt>Antes de publicarse</dt>
           <dd>Cada producto pasa por revisión manual de Kreata.</dd>
         </dl>
-        <a className="enlace-fuerte" href="#">Abrir mi tienda en Kreata</a>
+        <Link className="enlace-fuerte" to="/community">Abrir mi tienda en Kreata</Link>
       </div>
       <div
         className="escenario escenario-oscuro"

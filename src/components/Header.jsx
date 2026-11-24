@@ -59,7 +59,7 @@ export function Header() {
       </form>
 
       <div className="cabecera-acciones">
-        <Link className="enlace-creador" to="/#creadores">Vender mis diseños</Link>
+        <Link className="enlace-creador" to="/community">Vender mis diseños</Link>
         <Link to="/account" className="accion-icono" aria-label="Mi cuenta"><AccountIcon /></Link>
         <Link to="/favorites" className="accion-icono" aria-label="Lista de deseos"><HeartIcon /></Link>
         <a href="#" className="accion-icono carrito" id="carrito" aria-label={`Carrito, ${count} ${count === 1 ? 'producto' : 'productos'}`}>
